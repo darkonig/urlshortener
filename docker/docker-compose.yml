@@ -49,20 +49,6 @@ services:
 #    depends_on:
 #      - zookeeper
 
-#  kafka:
-#    image: spotify/kafka
-#    ports:
-#      - "9092:9092"
-#      - "2181:2181"
-#    #hostname: kafka
-#    networks:
-#      - dmapp
-#    expose:
-#      - "9092"
-#      - "2181"
-#    environment:
-#      - TOPICS=url-access,url-creation
-
   redis:
     image: redis
     networks:
@@ -79,7 +65,7 @@ services:
       - "8082:8080"
     environment:
       - REDIS_HOST=redis
-      - SITE_NAME=http://localhost:8280/api/v1/url
+      - SITE_NAME=http://localhost:8082
       - KAFKA_HOST=kafka
     links:
       - redis
