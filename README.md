@@ -33,15 +33,15 @@ You should send us a link to a Git repository that we will be able to clone.
 
 The solution architecture is the following:
 
-[Application Architecture](/ApplicationArchitecture.png)
+![Application Architecture](/ApplicationArchitecture.png)
 
 You can find two projects:
-- **urlshortener**: the core part of the project, ![read more](/urlshortener/).
-- **urlshortener-status**: the statistics project, ![read more](/urlshortener-status/).
+- **urlshortener**: the core part of the project, [read more](/urlshortener/).
+- **urlshortener-status**: the statistics project, [read more](/urlshortener-status/).
 
 This will be the target architecture:
 
-[Application Architecture - Complete](/ApplicationArchitectureComplete.png)
+![Application Architecture - Complete](/ApplicationArchitectureComplete.png)
 
 ## Running the project
 
@@ -83,6 +83,14 @@ Response:
     "created": "2019-01-20T05:11:09.68"
 }
 ```
+
+if a URL is already registered a http status code  `400`, will be returned with the following response:
+```json
+{
+"status": "BAD_REQUEST",
+"message": "Url already saved."
+}
+``` 
 
 Redirect to the target url:
 
