@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+app.site.name: http://lcl.ly
+
+# Redis
+spring.redis:
+  host: localhost
+  port: 6679
+
+# Kafka
+kafka:
+  server: localhost:9092
+  topic.url-access: url-access
+  topic.url-creation: url-creation

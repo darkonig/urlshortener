@@ -1,0 +1,14 @@
+spring:
+  profiles: container
+
+  redis:
+    host: ${REDIS_HOST}
+    port: 6379
+
+app.site.name: ${SITE_NAME}
+
+# Kafka
+kafka:
+  server: ${KAFKA_HOST}:9092
+  topic.url-access: url-access
+  topic.url-creation: url-creation

@@ -1,0 +1,100 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo
+    networks:
+      - dmapp
+    ports:
+      - "17018:27017"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - dmapp
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - dmapp
+    environment:
+      HOSTNAME_COMMAND: "echo $$(hostname)"
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_PORT: 9092
+      BROKER_ID_COMMAND: "docker inspect --format '{{ .Name }}' $$(hostname) | awk -F_ '{ printf $$NF }'"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "url-access:1:1,url-creation:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#  kafka:
+#    build: .
+#    ports:
+#      - "9092:9092"
+#    links:
+#      - zookeeper:zk
+#    networks:
+#      - dmapp
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.240
+#      KAFKA_CREATE_TOPICS: "url-access:1:1,url-creation:1:1"
+##      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_ZOOKEEPER_CONNECT: zk:2181
+#      KAFKA_MESSAGE_MAX_BYTES: 2000000
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    depends_on:
+#      - zookeeper
+
+#  kafka:
+#    image: spotify/kafka
+#    ports:
+#      - "9092:9092"
+#      - "2181:2181"
+#    #hostname: kafka
+#    networks:
+#      - dmapp
+#    expose:
+#      - "9092"
+#      - "2181"
+#    environment:
+#      - TOPICS=url-access,url-creation
+
+  redis:
+    image: redis
+    networks:
+      - dmapp
+    ports:
+      - "6679:6379"
+    #restart: always
+
+  urlshortener:
+    image: dk/urlshortener:0.0.1-SNAPSHOT
+    networks:
+      - dmapp
+    ports:
+      - "8082:8080"
+    environment:
+      - REDIS_HOST=redis
+      - SITE_NAME=http://localhost:8280/api/v1/url
+      - KAFKA_HOST=kafka
+    links:
+      - redis
+      - kafka
+
+  urlshortener-status:
+    image: dk/urlshortener-status:0.0.1-SNAPSHOT
+    networks:
+      - dmapp
+    ports:
+      - "8083:8080"
+    links:
+      - redis
+      - kafka
+      - mongodb
+
+networks:
+  dmapp:

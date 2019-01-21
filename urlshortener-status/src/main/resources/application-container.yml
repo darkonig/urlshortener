@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# Mongo
+spring.data.mongodb.uri: mongodb://mongodb:27017/urlstatus
+
+# Kafka
+kafka:
+  server: kafka:9092
+  topic.url-access: url-access
+  topic.url-creation: url-creation

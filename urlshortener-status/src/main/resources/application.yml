@@ -1,0 +1,13 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+
+# Mongo
+spring.data.mongodb.uri: mongodb://localhost:17017/mongotest
+
+# Kafka
+kafka:
+  server: localhost:9092
+  topic.url-access: url-access
+  topic.url-creation: url-creation
