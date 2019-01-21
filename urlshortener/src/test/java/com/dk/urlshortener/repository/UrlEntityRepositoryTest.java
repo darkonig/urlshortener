@@ -20,16 +20,12 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-//@DataJpaTest
 @SpringBootTest
 @ActiveProfiles("disableQueue")
 public class UrlEntityRepositoryTest {
 
     @Autowired
     private UrlEntityRepository repository;
-
-    //@Autowired
-    //private TestEntityManager entityManager;
 
     /*
      * It is need to have a Redis server instance available,
@@ -58,7 +54,6 @@ public class UrlEntityRepositoryTest {
 
     @Test
     public void findByOrigin() {
-        //URLEntity saved = entityManager.persistFlushFind(entity);
         URLEntity saved = repository.save(entity);
         Optional<URLEntity> search = repository.findByOrigin(entity.getOrigin());
 
